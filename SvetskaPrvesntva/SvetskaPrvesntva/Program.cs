@@ -6,7 +6,8 @@ namespace SvetskaPrvesntva
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            SvetskaPrvenstvaService serviceStart = new SvetskaPrvenstvaService();
+            serviceStart.Menu();
         }
     }
 }
