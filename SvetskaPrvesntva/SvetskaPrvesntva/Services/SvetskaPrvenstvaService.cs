@@ -8,7 +8,7 @@ namespace SvetskaPrvesntva
 {
     public class SvetskaPrvenstvaService
     {
-        private static List<Drzava> listaDrzava = new List<Drzava>();
+        private static Dictionary<string, Drzava> listaDrzava = new Dictionary<string, Drzava>();
         Options opcije;
         public void MenuText()
         {
@@ -51,9 +51,10 @@ namespace SvetskaPrvesntva
 
         public void WriteAllCountrys()
         {
-            foreach (Drzava drzava in listaDrzava)
+            foreach (KeyValuePair<string,Drzava> drzava in listaDrzava)
             {
-                Console.WriteLine(drzava.Naziv);
+                Drzava drzavaWrite = drzava.Value;
+                Console.WriteLine(drzavaWrite.Naziv);
             }
             Console.WriteLine("Press any key to continue!");
             Console.ReadLine();
@@ -67,11 +68,11 @@ namespace SvetskaPrvesntva
             Drzava drzava3 = new Drzava {Naziv = "Hrvatska"};
             Drzava drzava4 = new Drzava {Naziv = "Francuska"};
             Drzava drzava5 = new Drzava {Naziv = "Holandija"};
-            listaDrzava.Add(drzava1);
-            listaDrzava.Add(drzava2);
-            listaDrzava.Add(drzava3);
-            listaDrzava.Add(drzava4);
-            listaDrzava.Add(drzava5);
+            listaDrzava.Add(drzava1.Naziv,drzava1);
+            listaDrzava.Add(drzava2.Naziv,drzava2);
+            listaDrzava.Add(drzava3.Naziv,drzava3);
+            listaDrzava.Add(drzava4.Naziv,drzava4);
+            listaDrzava.Add(drzava5.Naziv,drzava5);
         }
     }
 }
