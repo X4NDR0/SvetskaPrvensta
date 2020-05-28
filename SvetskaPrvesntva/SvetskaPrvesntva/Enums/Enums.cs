@@ -7,6 +7,7 @@ namespace SvetskaPrvesntva.Enums
     enum Options
     {
         WriteAllCountrys = 1,
+        WriteAllWorldCups = 2,
         Exit = 0
     }
 }

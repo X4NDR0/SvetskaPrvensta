@@ -6,8 +6,9 @@ namespace SvetskaPrvesntva.Models
 {
     class SvetskoPrvenstvo
     {
+        public int ID;
         public string Naziv;
         public int Godina;
-        public string Domacin;
+        public Drzava Domacin;
     }
 }

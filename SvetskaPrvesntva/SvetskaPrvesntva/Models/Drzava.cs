@@ -6,6 +6,7 @@ namespace SvetskaPrvesntva.Models
 {
     class Drzava
     {
+        public int ID;
         public string Naziv;
     }
 }
