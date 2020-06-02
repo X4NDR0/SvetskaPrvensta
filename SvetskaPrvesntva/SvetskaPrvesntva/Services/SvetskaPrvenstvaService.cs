@@ -3,6 +3,9 @@ using System;
 using SvetskaPrvesntva.Enums;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.CompilerServices;
+using System.Linq;
+using System.ComponentModel.Design;
 
 namespace SvetskaPrvesntva
 {
@@ -43,6 +46,11 @@ namespace SvetskaPrvesntva
                         WriteAllWorldCups();
                         break;
 
+                    case Options.AddOrChangeCountry:
+                        Console.Clear();
+                        AddOrChangeCountry();
+                        break;
+
                     default:
                         Console.WriteLine("That options does not exits!");
                         break;
@@ -56,7 +64,7 @@ namespace SvetskaPrvesntva
             foreach (KeyValuePair<int, Drzava> drzava in listaDrzava)
             {
                 Drzava drzavaWrite = drzava.Value;
-                Console.WriteLine(drzavaWrite.Naziv);
+                Console.WriteLine(drzavaWrite.ID + " " + drzavaWrite.Naziv);
             }
             Console.WriteLine("Press any key to continue!");
             Console.ReadLine();
@@ -65,7 +73,7 @@ namespace SvetskaPrvesntva
 
         public void WriteAllWorldCups()
         {
-            foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
+            foreach (KeyValuePair<int, SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
             {
                 SvetskoPrvenstvo svetskoPrvenstvoWrite = svetskoPrvenstvo.Value;
                 Console.WriteLine(svetskoPrvenstvoWrite.ID + " " + svetskoPrvenstvoWrite.Naziv + " " + svetskoPrvenstvoWrite.Godina + " " + svetskoPrvenstvoWrite.Domacin.Naziv);
@@ -75,13 +83,59 @@ namespace SvetskaPrvesntva
             Console.Clear();
         }
 
+        public void AddOrChangeCountry()
+        {
+            Console.WriteLine("1.Add");
+            Console.WriteLine("2.Change");
+            Console.Write("Option:");
+            Int32.TryParse(Console.ReadLine(), out int option);
+
+            switch (option)
+            {
+                case 1:
+                    int id = listaDrzava.Keys.Max() + 1;
+                    Console.Write("Type the name of the country:");
+                    string nameAdd = Console.ReadLine();
+
+                    Drzava drzavaAdd = new Drzava { ID = id, Naziv = nameAdd };
+                    listaDrzava.Add(drzavaAdd.ID, drzavaAdd);
+                    break;
+
+                case 2:
+                    Console.Write("Enter the id of the item which you want make changes:");
+                    Int32.TryParse(Console.ReadLine(), out int idSelect);
+
+
+                    if (listaDrzava.ContainsKey(idSelect))
+                    {
+                            Drzava drzava = listaDrzava[idSelect];
+
+                            Console.Write("Enter the name of the country:");
+                            string nameChange = Console.ReadLine();
+
+                            drzava = new Drzava { ID = idSelect, Naziv = nameChange };
+
+                            listaDrzava[idSelect] = drzava;
+                    }else
+                    {
+                        Console.WriteLine("That ID does not exits!");
+                    }
+                    break;
+
+
+                default:
+                    Console.WriteLine("That option does not exits!");
+                    break;
+            }
+        }
+
         public void LoadData()
         {
-            Drzava drzava1 = new Drzava { Naziv = "Srbija" };
-            Drzava drzava2 = new Drzava { Naziv = "Slovenija" };
-            Drzava drzava3 = new Drzava { Naziv = "Hrvatska" };
-            Drzava drzava4 = new Drzava { Naziv = "Francuska" };
-            Drzava drzava5 = new Drzava { Naziv = "Holandija" };
+            Drzava drzava1 = new Drzava { ID = 1, Naziv = "Srbija" };
+            Drzava drzava2 = new Drzava { ID = 2, Naziv = "Slovenija" };
+            Drzava drzava3 = new Drzava { ID = 3, Naziv = "Hrvatska" };
+            Drzava drzava4 = new Drzava { ID = 4, Naziv = "Francuska" };
+            Drzava drzava5 = new Drzava { ID = 5, Naziv = "Holandija" };
             listaDrzava.Add(drzava1.ID, drzava1);
             listaDrzava.Add(drzava2.ID, drzava2);
             listaDrzava.Add(drzava3.ID, drzava3);
