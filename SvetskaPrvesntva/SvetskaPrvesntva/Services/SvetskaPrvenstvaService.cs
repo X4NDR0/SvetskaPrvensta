@@ -59,6 +59,11 @@ namespace SvetskaPrvesntva
                         AddOrChangeWorldCup();
                         break;
 
+                    case Options.SortCountry:
+                        Console.Clear();
+                        SortCountry();
+                        break;
+
                     default:
                         Console.WriteLine("That options does not exits!");
                         break;
@@ -211,6 +216,14 @@ namespace SvetskaPrvesntva
                 default:
                     Console.WriteLine("That options does not exits!");
                     break;
+            }
+        }
+
+        public static void SortCountry()
+        {
+            foreach (KeyValuePair<int,Drzava> drzava in listaDrzava.OrderBy(x => x.Value.Naziv))
+            {
+                Console.WriteLine("ID:" + drzava.Key + " Naziv:" + drzava.Value.Naziv);
             }
         }
 
