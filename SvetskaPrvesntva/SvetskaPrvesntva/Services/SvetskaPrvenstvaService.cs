@@ -6,6 +6,7 @@ using System.Text;
 using System.Runtime.CompilerServices;
 using System.Linq;
 using System.ComponentModel.Design;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SvetskaPrvesntva
 {
@@ -135,17 +136,18 @@ namespace SvetskaPrvesntva
 
                     if (listaDrzava.ContainsKey(idSelect))
                     {
-                            Drzava drzava = listaDrzava[idSelect];
+                        Drzava drzava = listaDrzava[idSelect];
 
-                            Console.Write("Enter the name of the country:");
-                            string nameChange = Console.ReadLine();
+                        Console.Write("Enter the name of the country:");
+                        string nameChange = Console.ReadLine();
 
                         Console.Clear();
 
-                            drzava = new Drzava { ID = idSelect, Naziv = nameChange };
+                        drzava = new Drzava { ID = idSelect, Naziv = nameChange };
 
-                            listaDrzava[idSelect] = drzava;
-                    }else
+                        listaDrzava[idSelect] = drzava;
+                    }
+                    else
                     {
                         Console.WriteLine("That ID does not exits!");
                     }
@@ -195,8 +197,8 @@ namespace SvetskaPrvesntva
                     if (listaDrzava.ContainsKey(idDrzaveDomacina))
                     {
                         Drzava drzavaDomacin = listaDrzava[idDrzaveDomacina];
-                        SvetskoPrvenstvo svetskoPrvenstvoAdd = new SvetskoPrvenstvo {ID = listaSvetskihPrvenstva.Keys.Max() + 1,Naziv = naziv,Domacin = drzavaDomacin,Godina = yearAdd};
-                        listaSvetskihPrvenstva.Add(svetskoPrvenstvoAdd.ID,svetskoPrvenstvoAdd);
+                        SvetskoPrvenstvo svetskoPrvenstvoAdd = new SvetskoPrvenstvo { ID = listaSvetskihPrvenstva.Keys.Max() + 1, Naziv = naziv, Domacin = drzavaDomacin, Godina = yearAdd };
+                        listaSvetskihPrvenstva.Add(svetskoPrvenstvoAdd.ID, svetskoPrvenstvoAdd);
 
                         Console.Clear();
                         Console.WriteLine("Svetsko prvenstvo je uspesno dodato!");
@@ -241,7 +243,7 @@ namespace SvetskaPrvesntva
                         if (listaDrzava.ContainsKey(idDomacin))
                         {
                             Drzava drzavaDomacinEdit = listaDrzava[idDomacin];
-                            svetskoPrvenstvo = new SvetskoPrvenstvo {ID = idSelect,Naziv = nazivEdit,Godina = yearEdit,Domacin = drzavaDomacinEdit};
+                            svetskoPrvenstvo = new SvetskoPrvenstvo { ID = idSelect, Naziv = nazivEdit, Godina = yearEdit, Domacin = drzavaDomacinEdit };
                             listaSvetskihPrvenstva[idSelect] = svetskoPrvenstvo;
 
                             Console.Clear();
@@ -251,7 +253,8 @@ namespace SvetskaPrvesntva
                         {
                             Console.WriteLine("That ID of country does not exits!");
                         }
-                    }else
+                    }
+                    else
                     {
                         Console.WriteLine("That ID does not exits!");
                     }
@@ -267,10 +270,18 @@ namespace SvetskaPrvesntva
             }
         }
 
+        private static void WriteSortedWorldCups(Dictionary<int,SvetskoPrvenstvo> svetskoPrvenstvo)
+        {
+            foreach (KeyValuePair<int,SvetskoPrvenstvo> item in svetskoPrvenstvo)
+            {
+                Console.WriteLine("ID:" + item.Value.ID + " Naziv:" + item.Value.Naziv + " Godina:" + item.Value.Godina + " Domacin:" + item.Value.Domacin.Naziv);
+            }
+        }
+
         public static void SortCountry()
         {
             Console.Clear();
-            foreach (KeyValuePair<int,Drzava> drzava in listaDrzava.OrderBy(x => x.Value.Naziv))
+            foreach (KeyValuePair<int, Drzava> drzava in listaDrzava.OrderBy(x => x.Value.Naziv))
             {
                 Console.WriteLine("ID:" + drzava.Key + " Naziv:" + drzava.Value.Naziv);
             }
@@ -290,10 +301,13 @@ namespace SvetskaPrvesntva
             {
                 case 1:
                     Console.Clear();
-                    foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva.OrderBy(x=> x.Value.Godina))
-                    {
-                        Console.WriteLine("ID:" + svetskoPrvenstvo.Value.ID + " Naziv:" + svetskoPrvenstvo.Value.Naziv + " Godina:" + svetskoPrvenstvo.Value.Godina + " Domacin:" + svetskoPrvenstvo.Value.Domacin.Naziv);
-                    }
+
+                    Dictionary<int, SvetskoPrvenstvo> sp = new Dictionary<int, SvetskoPrvenstvo>();
+
+                    var dicti = listaSvetskihPrvenstva.OrderBy(x => x.Value.Godina);
+
+                    WriteSortedWorldCups(dicti.ToDictionary());
+
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
                     Console.Clear();
@@ -301,10 +315,9 @@ namespace SvetskaPrvesntva
 
                 case 2:
                     Console.Clear();
-                    foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva.OrderBy(x => x.Value.Naziv))
-                    {
-                        Console.WriteLine("ID:" + svetskoPrvenstvo.Value.ID + " Naziv:" + svetskoPrvenstvo.Value.Naziv + " Godina:" + svetskoPrvenstvo.Value.Godina + " Domacin:" + svetskoPrvenstvo.Value.Domacin.Naziv);
-                    }
+
+                    
+
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
                     Console.Clear();
