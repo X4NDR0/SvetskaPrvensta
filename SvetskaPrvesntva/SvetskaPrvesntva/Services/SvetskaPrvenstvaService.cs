@@ -64,6 +64,11 @@ namespace SvetskaPrvesntva
                         SortCountry();
                         break;
 
+                    case Options.SortWorldCups:
+                        Console.Clear();
+                        SortWorldCup();
+                        break;
+
                     default:
                         Console.WriteLine("That options does not exits!");
                         break;
@@ -103,12 +108,18 @@ namespace SvetskaPrvesntva
             switch (option)
             {
                 case 1:
+                    Console.Clear();
                     int id = listaDrzava.Keys.Max() + 1;
                     Console.Write("Type the name of the country:");
                     string nameAdd = Console.ReadLine();
 
+
                     Drzava drzavaAdd = new Drzava { ID = id, Naziv = nameAdd };
                     listaDrzava.Add(drzavaAdd.ID, drzavaAdd);
+
+                    Console.Clear();
+
+                    Console.WriteLine("Drzava je uspesno dodata!");
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
@@ -116,9 +127,11 @@ namespace SvetskaPrvesntva
                     break;
 
                 case 2:
+                    Console.Clear();
                     Console.Write("Enter the id of the item which you want make changes:");
                     Int32.TryParse(Console.ReadLine(), out int idSelect);
 
+                    Console.Clear();
 
                     if (listaDrzava.ContainsKey(idSelect))
                     {
@@ -127,6 +140,8 @@ namespace SvetskaPrvesntva
                             Console.Write("Enter the name of the country:");
                             string nameChange = Console.ReadLine();
 
+                        Console.Clear();
+
                             drzava = new Drzava { ID = idSelect, Naziv = nameChange };
 
                             listaDrzava[idSelect] = drzava;
@@ -134,6 +149,11 @@ namespace SvetskaPrvesntva
                     {
                         Console.WriteLine("That ID does not exits!");
                     }
+
+
+                    Console.Clear();
+
+                    Console.WriteLine("Drzava je uspesno izmenjena!");
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
@@ -157,11 +177,16 @@ namespace SvetskaPrvesntva
             switch (option)
             {
                 case 1:
+                    Console.Clear();
                     Console.Write("Enter the name of the world cup:");
                     string naziv = Console.ReadLine();
 
+                    Console.Clear();
+
                     Console.Write("Enter the year of the world cup:");
                     Int32.TryParse(Console.ReadLine(), out int yearAdd);
+
+                    Console.Clear();
 
                     WriteAllCountrys();
                     Console.Write("Enter the id of the \"Domacin\":");
@@ -172,16 +197,26 @@ namespace SvetskaPrvesntva
                         Drzava drzavaDomacin = listaDrzava[idDrzaveDomacina];
                         SvetskoPrvenstvo svetskoPrvenstvoAdd = new SvetskoPrvenstvo {ID = listaSvetskihPrvenstva.Keys.Max() + 1,Naziv = naziv,Domacin = drzavaDomacin,Godina = yearAdd};
                         listaSvetskihPrvenstva.Add(svetskoPrvenstvoAdd.ID,svetskoPrvenstvoAdd);
-                    }else
+
+                        Console.Clear();
+                        Console.WriteLine("Svetsko prvenstvo je uspesno dodato!");
+                    }
+                    else
                     {
                         Console.WriteLine("That ID does not exits!");
                     }
 
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadLine();
+                    Console.Clear();
                     break;
 
                 case 2:
+                    Console.Clear();
                     Console.Write("Enter the ID of the world cup which you want edit:");
                     Int32.TryParse(Console.ReadLine(), out int idSelect);
+
+                    Console.Clear();
 
                     if (listaSvetskihPrvenstva.ContainsKey(idSelect))
                     {
@@ -190,19 +225,29 @@ namespace SvetskaPrvesntva
                         Console.Write("Enter the name of the world cup:");
                         string nazivEdit = Console.ReadLine();
 
+                        Console.Clear();
+
                         Console.Write("Enter the year of the world cup:");
                         Int32.TryParse(Console.ReadLine(), out int yearEdit);
+
+                        Console.Clear();
 
                         WriteAllCountrys();
                         Console.Write("Enter the ID of the \"Domacin\":");
                         Int32.TryParse(Console.ReadLine(), out int idDomacin);
+
+                        Console.Clear();
 
                         if (listaDrzava.ContainsKey(idDomacin))
                         {
                             Drzava drzavaDomacinEdit = listaDrzava[idDomacin];
                             svetskoPrvenstvo = new SvetskoPrvenstvo {ID = idSelect,Naziv = nazivEdit,Godina = yearEdit,Domacin = drzavaDomacinEdit};
                             listaSvetskihPrvenstva[idSelect] = svetskoPrvenstvo;
-                        }else
+
+                            Console.Clear();
+                            Console.WriteLine("Svetsko prvenstvo je uspesno dodato!");
+                        }
+                        else
                         {
                             Console.WriteLine("That ID of country does not exits!");
                         }
@@ -210,6 +255,9 @@ namespace SvetskaPrvesntva
                     {
                         Console.WriteLine("That ID does not exits!");
                     }
+
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadLine();
 
                     break;
 
@@ -221,9 +269,50 @@ namespace SvetskaPrvesntva
 
         public static void SortCountry()
         {
+            Console.Clear();
             foreach (KeyValuePair<int,Drzava> drzava in listaDrzava.OrderBy(x => x.Value.Naziv))
             {
                 Console.WriteLine("ID:" + drzava.Key + " Naziv:" + drzava.Value.Naziv);
+            }
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadLine();
+            Console.Clear();
+        }
+
+        public static void SortWorldCup()
+        {
+            Console.WriteLine("1.Sortiraj po godini");
+            Console.WriteLine("2.Sortiraj po nazivu svetskog prvenstvo");
+            Console.Write("Options:");
+            Int32.TryParse(Console.ReadLine(), out int idSelect);
+
+            switch (idSelect)
+            {
+                case 1:
+                    Console.Clear();
+                    foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva.OrderBy(x=> x.Value.Godina))
+                    {
+                        Console.WriteLine("ID:" + svetskoPrvenstvo.Value.ID + " Naziv:" + svetskoPrvenstvo.Value.Naziv + " Godina:" + svetskoPrvenstvo.Value.Godina + " Domacin:" + svetskoPrvenstvo.Value.Domacin.Naziv);
+                    }
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadLine();
+                    Console.Clear();
+                    break;
+
+                case 2:
+                    Console.Clear();
+                    foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva.OrderBy(x => x.Value.Naziv))
+                    {
+                        Console.WriteLine("ID:" + svetskoPrvenstvo.Value.ID + " Naziv:" + svetskoPrvenstvo.Value.Naziv + " Godina:" + svetskoPrvenstvo.Value.Godina + " Domacin:" + svetskoPrvenstvo.Value.Domacin.Naziv);
+                    }
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadLine();
+                    Console.Clear();
+                    break;
+
+                default:
+                    Console.WriteLine("That ID does not exits!");
+                    break;
             }
         }
 

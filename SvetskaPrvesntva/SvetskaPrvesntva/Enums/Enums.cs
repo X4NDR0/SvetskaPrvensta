@@ -11,6 +11,7 @@ namespace SvetskaPrvesntva.Enums
         AddOrChangeCountry = 3,
         AddOrChangeWorldCup = 4,
         SortCountry = 5,
+        SortWorldCups = 6,
         Exit = 0
     }
 }
