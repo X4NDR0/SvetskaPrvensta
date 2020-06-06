@@ -1,12 +1,9 @@
-﻿using SvetskaPrvesntva.Models;
+﻿using SvetskaPrvesntva.Enums;
+using SvetskaPrvesntva.Models;
 using System;
-using SvetskaPrvesntva.Enums;
 using System.Collections.Generic;
-using System.Text;
-using System.Runtime.CompilerServices;
 using System.Linq;
-using System.ComponentModel.Design;
-using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 namespace SvetskaPrvesntva
 {
@@ -29,6 +26,8 @@ namespace SvetskaPrvesntva
         }
         public void Menu()
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             LoadData();
             do
             {
@@ -293,7 +292,7 @@ namespace SvetskaPrvesntva
         public static void SortWorldCup()
         {
             Console.WriteLine("1.Sortiraj po godini");
-            Console.WriteLine("2.Sortiraj po nazivu svetskog prvenstvo");
+            Console.WriteLine("2.Sortiraj po nazivu države gde je održano svetsko prvenstvo");
             Console.Write("Options:");
             Int32.TryParse(Console.ReadLine(), out int idSelect);
 
@@ -302,11 +301,11 @@ namespace SvetskaPrvesntva
                 case 1:
                     Console.Clear();
 
-                    Dictionary<int, SvetskoPrvenstvo> sp = new Dictionary<int, SvetskoPrvenstvo>();
+                    //   var dicti = listaSvetskihPrvenstva.OrderBy(x => x.Value.Godina);
 
-                    var dicti = listaSvetskihPrvenstva.OrderBy(x => x.Value.Godina);
+                    var sortedDictionaryByDate = listaSvetskihPrvenstva.OrderBy(x => x.Value.Godina).ToDictionary(x => x.Key, x => x.Value);
 
-                    WriteSortedWorldCups(dicti.ToDictionary());
+                    WriteSortedWorldCups(sortedDictionaryByDate);
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
@@ -316,7 +315,9 @@ namespace SvetskaPrvesntva
                 case 2:
                     Console.Clear();
 
-                    
+                    var sortedDictionaryByName = listaSvetskihPrvenstva.OrderBy(x => x.Value.Domacin).ToDictionary(x => x.Key, x => x.Value);
+
+                    WriteSortedWorldCups(sortedDictionaryByName);
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
