@@ -20,7 +20,7 @@ namespace SvetskaPrvesntva
             Console.WriteLine("4.Unos i izmena svetskih prvenstava");
             Console.WriteLine("5.Sortiranje drzava po nazivu i njihov prikaz");
             Console.WriteLine("6.Sortiranje svetskih prvenstava po nazivu ili godini odrzavanja");
-            Console.WriteLine("7.Ispis svetskih prvensta i drzava pomocu godina");
+            Console.WriteLine("7.Ispis svetskih prvenstava i drzava pomocu godina");
             Console.WriteLine("0.Exit");
             Console.Write("Odgovor:");
         }
@@ -67,6 +67,11 @@ namespace SvetskaPrvesntva
                     case Options.SortWorldCups:
                         Console.Clear();
                         SortWorldCup();
+                        break;
+
+                    case Options.WriteCountrysByRangeOfYear:
+                        Console.Clear();
+                        WriteAllCountrysByRangeOfYears();
                         break;
 
                     default:
@@ -301,8 +306,6 @@ namespace SvetskaPrvesntva
                 case 1:
                     Console.Clear();
 
-                    //   var dicti = listaSvetskihPrvenstva.OrderBy(x => x.Value.Godina);
-
                     var sortedDictionaryByDate = listaSvetskihPrvenstva.OrderBy(x => x.Value.Godina).ToDictionary(x => x.Key, x => x.Value);
 
                     WriteSortedWorldCups(sortedDictionaryByDate);
@@ -330,6 +333,21 @@ namespace SvetskaPrvesntva
             }
         }
 
+        public static void WriteAllCountrysByRangeOfYears()
+        {
+            Console.Write("Od:");
+            Int32.TryParse(Console.ReadLine(), out int odGodine);
+            Console.Write("Do:");
+            Int32.TryParse(Console.ReadLine(), out int doGodine);
+            foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
+            {
+                if (svetskoPrvenstvo.Value.Godina >= odGodine && svetskoPrvenstvo.Value.Godina <= doGodine)
+                {
+                    Console.WriteLine("ID:" + svetskoPrvenstvo.Value.ID + " Naziv:" + svetskoPrvenstvo.Value.Naziv + " Godina:" + svetskoPrvenstvo.Value.Godina + " Domacin:" + svetskoPrvenstvo.Value.Domacin.Naziv);
+                }
+            }
+        }
+
         public void LoadData()
         {
             Drzava drzava1 = new Drzava { ID = 1, Naziv = "Srbija" };
@@ -343,11 +361,11 @@ namespace SvetskaPrvesntva
             listaDrzava.Add(drzava4.ID, drzava4);
             listaDrzava.Add(drzava5.ID, drzava5);
 
-            SvetskoPrvenstvo svetskoPrvenstvo1 = new SvetskoPrvenstvo { ID = 1, Naziv = "prvenstvo1", Godina = 2018, Domacin = drzava2 };
-            SvetskoPrvenstvo svetskoPrvenstvo2 = new SvetskoPrvenstvo { ID = 2, Naziv = "prvenstvo2", Godina = 2013, Domacin = drzava5 };
-            SvetskoPrvenstvo svetskoPrvenstvo3 = new SvetskoPrvenstvo { ID = 3, Naziv = "prvenstvo3", Godina = 2015, Domacin = drzava3 };
-            SvetskoPrvenstvo svetskoPrvenstvo4 = new SvetskoPrvenstvo { ID = 4, Naziv = "prvenstvo4", Godina = 2019, Domacin = drzava1 };
-            SvetskoPrvenstvo svetskoPrvenstvo5 = new SvetskoPrvenstvo { ID = 5, Naziv = "prvenstvo5", Godina = 2020, Domacin = drzava4 };
+            SvetskoPrvenstvo svetskoPrvenstvo1 = new SvetskoPrvenstvo { ID = 1, Naziv = "prvenstvo1", Godina = 2010, Domacin = drzava2 };
+            SvetskoPrvenstvo svetskoPrvenstvo2 = new SvetskoPrvenstvo { ID = 2, Naziv = "prvenstvo2", Godina = 2011, Domacin = drzava5 };
+            SvetskoPrvenstvo svetskoPrvenstvo3 = new SvetskoPrvenstvo { ID = 3, Naziv = "prvenstvo3", Godina = 2013, Domacin = drzava3 };
+            SvetskoPrvenstvo svetskoPrvenstvo4 = new SvetskoPrvenstvo { ID = 4, Naziv = "prvenstvo4", Godina = 2012, Domacin = drzava1 };
+            SvetskoPrvenstvo svetskoPrvenstvo5 = new SvetskoPrvenstvo { ID = 5, Naziv = "prvenstvo5", Godina = 2015, Domacin = drzava4 };
             listaSvetskihPrvenstva.Add(svetskoPrvenstvo1.ID, svetskoPrvenstvo1);
             listaSvetskihPrvenstva.Add(svetskoPrvenstvo2.ID, svetskoPrvenstvo2);
             listaSvetskihPrvenstva.Add(svetskoPrvenstvo3.ID, svetskoPrvenstvo3);
