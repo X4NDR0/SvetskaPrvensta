@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SvetskaPrvesntva.Models
+﻿namespace SvetskaPrvesntva.Models
 {
-    class Drzava
+    /// <summary>
+    /// Representing class of country
+    /// </summary>
+    public class Drzava
     {
+        /// <summary>
+        /// Representing property of ID
+        /// </summary>
         public int ID;
+
+        /// <summary>
+        /// Representing property of name
+        /// </summary>
         public string Naziv;
     }
 }

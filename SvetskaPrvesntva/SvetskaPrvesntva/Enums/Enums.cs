@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SvetskaPrvesntva.Enums
+﻿namespace SvetskaPrvesntva.Enums
 {
     enum Options
     {

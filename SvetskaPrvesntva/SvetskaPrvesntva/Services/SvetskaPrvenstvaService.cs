@@ -7,11 +7,17 @@ using System.Text;
 
 namespace SvetskaPrvesntva
 {
+    /// <summary>
+    /// Representing class
+    /// </summary>
     public class SvetskaPrvenstvaService
     {
         private static Dictionary<int, Drzava> listaDrzava = new Dictionary<int, Drzava>();
         private static Dictionary<int, SvetskoPrvenstvo> listaSvetskihPrvenstva = new Dictionary<int, SvetskoPrvenstvo>();
         Options opcije;
+        /// <summary>
+        /// Representing method for writing text(options)
+        /// </summary>
         public void MenuText()
         {
             Console.WriteLine("1.Prikaz svih drzava");
@@ -25,6 +31,9 @@ namespace SvetskaPrvesntva
             Console.WriteLine("0.Exit");
             Console.Write("Odgovor:");
         }
+        /// <summary>
+        /// Representing method of Menu
+        /// </summary>
         public void Menu()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -88,6 +97,9 @@ namespace SvetskaPrvesntva
             } while (opcije != Options.Exit);
         }
 
+        /// <summary>
+        /// Representing method which write all countrys
+        /// </summary>
         public static void WriteAllCountrys()
         {
             var test = listaSvetskihPrvenstva.GroupBy(x => x.Value.Domacin.Naziv).Where(x => x.Count() > 2);
@@ -99,6 +111,9 @@ namespace SvetskaPrvesntva
             }
         }
 
+        /// <summary>
+        /// Representing method which write all world cups
+        /// </summary>
         public static void WriteAllWorldCups()
         {
             foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
@@ -110,6 +125,9 @@ namespace SvetskaPrvesntva
             Console.Clear();
         }
 
+        /// <summary>
+        /// Representing method which allow user to add or change country
+        /// </summary>
         public static void AddOrChangeCountry()
         {
             Console.WriteLine("1.Add");
@@ -180,6 +198,9 @@ namespace SvetskaPrvesntva
             }
         }
 
+        /// <summary>
+        /// Representing method which allow user to add or change world cup
+        /// </summary>
         public static void AddOrChangeWorldCup()
         {
             Console.WriteLine("1.Add");
@@ -281,6 +302,10 @@ namespace SvetskaPrvesntva
             }
         }
 
+        /// <summary>
+        /// Representing method which write sorted world cups
+        /// </summary>
+        /// <param name="svetskoPrvenstvo"></param>
         private static void WriteSortedWorldCups(Dictionary<int,SvetskoPrvenstvo> svetskoPrvenstvo)
         {
             foreach (KeyValuePair<int,SvetskoPrvenstvo> item in svetskoPrvenstvo)
@@ -289,6 +314,9 @@ namespace SvetskaPrvesntva
             }
         }
 
+        /// <summary>
+        /// Representing method which write sorted countrys
+        /// </summary>
         public static void SortCountry()
         {
             Console.Clear();
@@ -301,6 +329,9 @@ namespace SvetskaPrvesntva
             Console.Clear();
         }
 
+        /// <summary>
+        /// Representing method which write sorted world cups
+        /// </summary>
         public static void SortWorldCup()
         {
             Console.WriteLine("1.Sortiraj po godini");
@@ -340,6 +371,9 @@ namespace SvetskaPrvesntva
             }
         }
 
+        /// <summary>
+        /// Representing method which write all world cups by range of year
+        /// </summary>
         public static void WriteAllCountrysByRangeOfYears()
         {
             Console.Write("Od:");
@@ -355,22 +389,11 @@ namespace SvetskaPrvesntva
             }
         }
 
+        /// <summary>
+        /// Representing method which write number of world cups countrys
+        /// </summary>
         public static void NumberOfWorldCupsByCountry()
         {
-            //int brojac = 0;
-            //foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
-            //{
-            //    brojac = 0;
-            //    foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo2 in listaSvetskihPrvenstva)
-            //    {
-            //        if (svetskoPrvenstvo.Value.Domacin.Naziv.Equals(svetskoPrvenstvo2.Value.Domacin.Naziv))
-            //        {
-            //            brojac++;
-            //        }
-            //    }
-            //    Console.WriteLine("Drzava:" + svetskoPrvenstvo.Value.Domacin.Naziv + brojac);
-            //}
-
             var listaDrzava = listaSvetskihPrvenstva.Values.Select(x => x.Domacin.Naziv).Distinct().ToList();
 
             foreach (string name in listaDrzava)
@@ -388,6 +411,9 @@ namespace SvetskaPrvesntva
             }
         }
 
+        /// <summary>
+        /// Representing method used for load data
+        /// </summary>
         public void LoadData()
         {
             Drzava drzava1 = new Drzava { ID = 1, Naziv = "Srbija" };
