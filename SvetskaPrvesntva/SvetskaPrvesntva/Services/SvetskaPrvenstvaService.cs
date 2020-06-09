@@ -373,11 +373,11 @@ namespace SvetskaPrvesntva
 
             var listaDrzava = listaSvetskihPrvenstva.Values.Select(x => x.Domacin.Naziv).Distinct().ToList();
 
-            foreach (var name in listaDrzava)
+            foreach (string name in listaDrzava)
             {
                 int brojac = 0;
 
-                foreach (var svetskoPrvenstvo in listaSvetskihPrvenstva)
+                foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
                 {
                     if (svetskoPrvenstvo.Value.Domacin.Naziv.Equals(name))
                     {
