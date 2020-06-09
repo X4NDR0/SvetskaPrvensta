@@ -357,18 +357,34 @@ namespace SvetskaPrvesntva
 
         public static void NumberOfWorldCupsByCountry()
         {
-            int brojac = 0;
-            foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
+            //int brojac = 0;
+            //foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
+            //{
+            //    brojac = 0;
+            //    foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo2 in listaSvetskihPrvenstva)
+            //    {
+            //        if (svetskoPrvenstvo.Value.Domacin.Naziv.Equals(svetskoPrvenstvo2.Value.Domacin.Naziv))
+            //        {
+            //            brojac++;
+            //        }
+            //    }
+            //    Console.WriteLine("Drzava:" + svetskoPrvenstvo.Value.Domacin.Naziv + brojac);
+            //}
+
+            var listaDrzava = listaSvetskihPrvenstva.Values.Select(x => x.Domacin.Naziv).Distinct().ToList();
+
+            foreach (var name in listaDrzava)
             {
-                brojac = 0;
-                foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo2 in listaSvetskihPrvenstva)
+                int brojac = 0;
+
+                foreach (var svetskoPrvenstvo in listaSvetskihPrvenstva)
                 {
-                    if (svetskoPrvenstvo.Value.Domacin.Naziv.Equals(svetskoPrvenstvo2.Value.Domacin.Naziv))
+                    if (svetskoPrvenstvo.Value.Domacin.Naziv.Equals(name))
                     {
                         brojac++;
                     }
                 }
-                Console.WriteLine("Drzava:" + svetskoPrvenstvo.Value.Domacin.Naziv + brojac);
+                Console.WriteLine("Drzava:" + name + " "+ brojac);
             }
         }
 
