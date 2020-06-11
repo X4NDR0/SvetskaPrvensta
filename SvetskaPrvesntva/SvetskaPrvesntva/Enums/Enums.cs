@@ -10,6 +10,8 @@
         SortWorldCups = 6,
         WriteCountrysByRangeOfYear = 7,
         NumberOfWorldCupsByCountry = 8,
+        DeleteCountry = 9,
+        DeleteWorldCup = 10,
         Exit = 0
     }
 }
