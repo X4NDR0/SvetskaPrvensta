@@ -1,4 +1,5 @@
-﻿using SvetskaPrvesntva.Enums;
+﻿using SvetskaPrvenstva.Utils;
+using SvetskaPrvesntva.Enums;
 using SvetskaPrvesntva.Models;
 using System;
 using System.Collections.Generic;
@@ -145,7 +146,7 @@ namespace SvetskaPrvesntva
             Console.WriteLine("1.Add");
             Console.WriteLine("2.Change");
             Console.Write("Option:");
-            Int32.TryParse(Console.ReadLine(), out int option);
+            int option = Helper.CheckID();
 
             switch (option)
             {
@@ -153,7 +154,7 @@ namespace SvetskaPrvesntva
                     Console.Clear();
                     int id = listaDrzava.Keys.Max() + 1;
                     Console.Write("Type the name of the country:");
-                    string nameAdd = Console.ReadLine();
+                    string nameAdd = Helper.CheckString();
 
 
                     Drzava drzavaAdd = new Drzava { ID = id, Naziv = nameAdd };
@@ -173,7 +174,7 @@ namespace SvetskaPrvesntva
                 case 2:
                     Console.Clear();
                     Console.Write("Enter the id of the item which you want make changes:");
-                    Int32.TryParse(Console.ReadLine(), out int idSelect);
+                    int idSelect = Helper.CheckID();
 
                     Console.Clear();
 
@@ -182,7 +183,7 @@ namespace SvetskaPrvesntva
                         Drzava drzava = listaDrzava[idSelect];
 
                         Console.Write("Enter the name of the country:");
-                        string nameChange = Console.ReadLine();
+                        string nameChange = Helper.CheckString();
 
                         Console.Clear();
 
@@ -221,25 +222,25 @@ namespace SvetskaPrvesntva
             Console.WriteLine("1.Add");
             Console.WriteLine("2.Change");
             Console.Write("Options:");
-            Int32.TryParse(Console.ReadLine(), out int option);
+            int option = Helper.CheckID();
 
             switch (option)
             {
                 case 1:
                     Console.Clear();
                     Console.Write("Enter the name of the world cup:");
-                    string naziv = Console.ReadLine();
+                    string naziv = Helper.CheckString();
 
                     Console.Clear();
 
                     Console.Write("Enter the year of the world cup:");
-                    Int32.TryParse(Console.ReadLine(), out int yearAdd);
+                    int yearAdd = Helper.CheckID();
 
                     Console.Clear();
 
                     WriteAllCountrys();
                     Console.Write("Enter the id of the \"Domacin\":");
-                    Int32.TryParse(Console.ReadLine(), out int idDrzaveDomacina);
+                    int idDrzaveDomacina = Helper.CheckID();
 
                     if (listaDrzava.ContainsKey(idDrzaveDomacina))
                     {
@@ -265,7 +266,7 @@ namespace SvetskaPrvesntva
                 case 2:
                     Console.Clear();
                     Console.Write("Enter the ID of the world cup which you want edit:");
-                    Int32.TryParse(Console.ReadLine(), out int idSelect);
+                    int idSelect = Helper.CheckID();
 
                     Console.Clear();
 
@@ -274,18 +275,18 @@ namespace SvetskaPrvesntva
                         SvetskoPrvenstvo svetskoPrvenstvo = listaSvetskihPrvenstva[idSelect];
 
                         Console.Write("Enter the name of the world cup:");
-                        string nazivEdit = Console.ReadLine();
+                        string nazivEdit = Helper.CheckString();
 
                         Console.Clear();
 
                         Console.Write("Enter the year of the world cup:");
-                        Int32.TryParse(Console.ReadLine(), out int yearEdit);
+                        int yearEdit = Helper.CheckID();
 
                         Console.Clear();
 
                         WriteAllCountrys();
                         Console.Write("Enter the ID of the \"Domacin\":");
-                        Int32.TryParse(Console.ReadLine(), out int idDomacin);
+                        int idDomacin = Helper.CheckID();
 
                         Console.Clear();
 
@@ -356,7 +357,7 @@ namespace SvetskaPrvesntva
             Console.WriteLine("1.Sortiraj po godini");
             Console.WriteLine("2.Sortiraj po nazivu države gde je održano svetsko prvenstvo");
             Console.Write("Options:");
-            Int32.TryParse(Console.ReadLine(), out int idSelect);
+            int idSelect = Helper.CheckID();
 
             switch (idSelect)
             {
@@ -397,9 +398,9 @@ namespace SvetskaPrvesntva
         {
             Console.Clear();
             Console.Write("Od:");
-            Int32.TryParse(Console.ReadLine(), out int odGodine);
+            int odGodine = Helper.CheckID();
             Console.Write("Do:");
-            Int32.TryParse(Console.ReadLine(), out int doGodine);
+            int doGodine = Helper.CheckID();
 
             Console.Clear();
 
@@ -447,7 +448,7 @@ namespace SvetskaPrvesntva
         public void DeleteCountry()
         {
             Console.Write("Enter the ID of the country which you want delete:");
-            Int32.TryParse(Console.ReadLine(), out int ID);
+            int ID = Helper.CheckID();
 
             Console.Clear();
 
@@ -471,7 +472,7 @@ namespace SvetskaPrvesntva
         public void DeleteWorldCup()
         {
             Console.Write("Enter the ID of the world cup which you want delete:");
-            Int32.TryParse(Console.ReadLine(), out int ID);
+            int ID = Helper.CheckID();
             if (listaSvetskihPrvenstva.ContainsKey(ID))
             {
                 listaSvetskihPrvenstva.Remove(ID);
@@ -516,14 +517,16 @@ namespace SvetskaPrvesntva
         /// </summary>
         public static void SaveCountry()
         {
-            StreamWriter sw = new StreamWriter(lokacija + "\\" + "data" + "\\" + "drzave.csv");
-
-            foreach (KeyValuePair<int, Drzava> drzava in listaDrzava)
+            if (File.Exists(lokacija + "\\" + "data" + "\\" + "drzave.csv"))
             {
-                sw.WriteLine(drzava.Value.Save());
-            }
+                StreamWriter sw = new StreamWriter(lokacija + "\\" + "data" + "\\" + "drzave.csv");
 
-            sw.Close();
+                foreach (KeyValuePair<int, Drzava> drzava in listaDrzava)
+                {
+                    sw.WriteLine(drzava.Value.Save());
+                }
+                sw.Close();
+            }
         }
 
         /// <summary>
@@ -531,13 +534,19 @@ namespace SvetskaPrvesntva
         /// </summary>
         public static void SaveWorldCups()
         {
-            StreamWriter sw = new StreamWriter(lokacija + "\\" + "data" + "\\" + "svetskaPrvenstva.csv");
-
-            foreach (KeyValuePair<int, SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
+            if (File.Exists(lokacija + "\\" + "data" + "\\" + "svetskaPrvenstva.csv"))
             {
-                sw.WriteLine(svetskoPrvenstvo.Value.Save());
+                StreamWriter sw = new StreamWriter(lokacija + "\\" + "data" + "\\" + "svetskaPrvenstva.csv");
+
+                foreach (KeyValuePair<int, SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
+                {
+                    sw.WriteLine(svetskoPrvenstvo.Value.Save());
+                }
+                sw.Close();
+            }else
+            {
+                Console.WriteLine("That file does not exits or destination is bad!");
             }
-            sw.Close();
         }
     }
 }
