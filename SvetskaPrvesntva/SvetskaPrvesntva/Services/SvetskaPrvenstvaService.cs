@@ -447,6 +447,7 @@ namespace SvetskaPrvesntva
         /// </summary>
         public void DeleteCountry()
         {
+            WriteAllCountrys();
             Console.Write("Enter the ID of the country which you want delete:");
             int ID = Helper.CheckID();
 
@@ -456,7 +457,10 @@ namespace SvetskaPrvesntva
             {
                 listaDrzava.Remove(ID);
 
-                Console.WriteLine("Press any key to continue...");
+                SaveCountry();
+
+                Console.WriteLine("Country has successfully deleted!");
+
                 Console.ReadLine();
                 Console.Clear();
             }
@@ -471,11 +475,22 @@ namespace SvetskaPrvesntva
         /// </summary>
         public void DeleteWorldCup()
         {
+            WriteAllWorldCups();
             Console.Write("Enter the ID of the world cup which you want delete:");
             int ID = Helper.CheckID();
+
+            Console.Clear();
+
             if (listaSvetskihPrvenstva.ContainsKey(ID))
             {
                 listaSvetskihPrvenstva.Remove(ID);
+
+                SaveWorldCups();
+
+                Console.WriteLine("World cup has successfully deleted!");
+
+                Console.ReadLine();
+                Console.Clear();
             }
             else
             {
@@ -543,7 +558,8 @@ namespace SvetskaPrvesntva
                     sw.WriteLine(svetskoPrvenstvo.Value.Save());
                 }
                 sw.Close();
-            }else
+            }
+            else
             {
                 Console.WriteLine("That file does not exits or destination is bad!");
             }
