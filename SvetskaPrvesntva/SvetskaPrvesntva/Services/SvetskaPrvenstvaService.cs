@@ -223,7 +223,8 @@ namespace SvetskaPrvesntva
 
                             Console.Clear();
                             Console.WriteLine("Drzava je uspesno izmenjena!");
-                        }else
+                        }
+                        else
                         {
                             Console.WriteLine("That country name already exits!");
                         }
@@ -481,7 +482,7 @@ namespace SvetskaPrvesntva
         /// <param name="countryID"></param>
         public void DeletingWorldCupWhenDeleteCountry(int countryID)
         {
-            foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
+            foreach (KeyValuePair<int, SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
             {
                 if (svetskoPrvenstvo.Value.Domacin.ID == countryID)
                 {
