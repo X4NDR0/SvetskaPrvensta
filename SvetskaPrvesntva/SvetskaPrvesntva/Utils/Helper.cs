@@ -30,7 +30,7 @@ namespace SvetskaPrvenstva.Utils
             string data = string.Empty;
             while (data == null || data.Equals("") || data.Equals(" "))
             {
-                Console.Write("Wrong input,try again:");
+                data = Console.ReadLine();
             }
             return data;
         }

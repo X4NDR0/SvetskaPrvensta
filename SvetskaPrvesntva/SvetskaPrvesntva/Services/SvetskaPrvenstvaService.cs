@@ -17,6 +17,7 @@ namespace SvetskaPrvesntva
         private static Dictionary<int, Drzava> listaDrzava = new Dictionary<int, Drzava>();
         private static Dictionary<int, SvetskoPrvenstvo> listaSvetskihPrvenstva = new Dictionary<int, SvetskoPrvenstvo>();
         private static string lokacija = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\"));
+        private static string nameAdd;
         Options opcije;
         /// <summary>
         /// Representing method for writing text(options)
@@ -62,6 +63,9 @@ namespace SvetskaPrvesntva
                     case Options.WriteAllWorldCups:
                         Console.Clear();
                         WriteAllWorldCups();
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadLine();
+                        Console.Clear();
                         break;
 
                     case Options.AddOrChangeCountry:
@@ -133,9 +137,22 @@ namespace SvetskaPrvesntva
             {
                 Console.WriteLine("ID:" + svetskoPrvenstvo.Value.ID + " Naziv:" + svetskoPrvenstvo.Value.Naziv + " Godina:" + svetskoPrvenstvo.Value.Godina + " Domacin:" + svetskoPrvenstvo.Value.Domacin.Naziv);
             }
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadLine();
-            Console.Clear();
+        }
+
+        /// <summary>
+        /// Representing method for checking country name
+        /// </summary>
+        /// <returns></returns>
+        public static bool CheckCountry()
+        {
+            foreach (KeyValuePair<int, Drzava> drzava in listaDrzava)
+            {
+                if (drzava.Value.Naziv.Equals(nameAdd))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -154,17 +171,24 @@ namespace SvetskaPrvesntva
                     Console.Clear();
                     int id = listaDrzava.Keys.Max() + 1;
                     Console.Write("Type the name of the country:");
-                    string nameAdd = Helper.CheckString();
+                    nameAdd = Helper.CheckString();
 
+                    bool provera = CheckCountry();
 
-                    Drzava drzavaAdd = new Drzava { ID = id, Naziv = nameAdd };
-                    listaDrzava.Add(drzavaAdd.ID, drzavaAdd);
+                    if (provera)
+                    {
+                        Drzava drzavaAdd = new Drzava { ID = id, Naziv = nameAdd };
+                        listaDrzava.Add(drzavaAdd.ID, drzavaAdd);
+
+                        Console.Clear();
+                        Console.WriteLine("Drzava je uspesno dodata!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("That country name already exits!");
+                    }
 
                     SaveCountry();
-
-                    Console.Clear();
-
-                    Console.WriteLine("Drzava je uspesno dodata!");
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
@@ -173,6 +197,7 @@ namespace SvetskaPrvesntva
 
                 case 2:
                     Console.Clear();
+                    WriteAllCountrys();
                     Console.Write("Enter the id of the item which you want make changes:");
                     int idSelect = Helper.CheckID();
 
@@ -190,13 +215,13 @@ namespace SvetskaPrvesntva
                         drzava = new Drzava { ID = idSelect, Naziv = nameChange };
 
                         listaDrzava[idSelect] = drzava;
+
+                        SaveCountry();
                     }
                     else
                     {
                         Console.WriteLine("That ID does not exits!");
                     }
-
-                    SaveCountry();
 
                     Console.Clear();
 
@@ -213,6 +238,7 @@ namespace SvetskaPrvesntva
                     break;
             }
         }
+
 
         /// <summary>
         /// Representing method which allow user to add or change world cup
@@ -265,6 +291,7 @@ namespace SvetskaPrvesntva
 
                 case 2:
                     Console.Clear();
+                    WriteAllWorldCups();
                     Console.Write("Enter the ID of the world cup which you want edit:");
                     int idSelect = Helper.CheckID();
 
@@ -376,7 +403,7 @@ namespace SvetskaPrvesntva
                 case 2:
                     Console.Clear();
 
-                    var sortedDictionaryByName = listaSvetskihPrvenstva.OrderBy(x => x.Value.Domacin).ToDictionary(x => x.Key, x => x.Value);
+                    var sortedDictionaryByName = listaSvetskihPrvenstva.OrderBy(x => x.Value.Domacin.Naziv).ToDictionary(x => x.Key, x => x.Value);
 
                     WriteSortedWorldCups(sortedDictionaryByName);
 
