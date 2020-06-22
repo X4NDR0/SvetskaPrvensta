@@ -17,7 +17,6 @@ namespace SvetskaPrvesntva
         private static Dictionary<int, Drzava> listaDrzava = new Dictionary<int, Drzava>();
         private static Dictionary<int, SvetskoPrvenstvo> listaSvetskihPrvenstva = new Dictionary<int, SvetskoPrvenstvo>();
         private static string lokacija = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\"));
-        private static string nameAdd;
         Options opcije;
         /// <summary>
         /// Representing method for writing text(options)
@@ -143,11 +142,11 @@ namespace SvetskaPrvesntva
         /// Representing method for checking country name
         /// </summary>
         /// <returns></returns>
-        public static bool CheckCountry()
+        public static bool CheckCountry(string name)
         {
             foreach (KeyValuePair<int, Drzava> drzava in listaDrzava)
             {
-                if (drzava.Value.Naziv.Equals(nameAdd))
+                if (drzava.Value.Naziv.Equals(name))
                 {
                     return false;
                 }
@@ -171,9 +170,9 @@ namespace SvetskaPrvesntva
                     Console.Clear();
                     int id = listaDrzava.Keys.Max() + 1;
                     Console.Write("Type the name of the country:");
-                    nameAdd = Helper.CheckString();
+                    string nameAdd = Helper.CheckString();
 
-                    bool provera = CheckCountry();
+                    bool provera = CheckCountry(nameAdd);
 
                     if (provera)
                     {
@@ -210,22 +209,29 @@ namespace SvetskaPrvesntva
                         Console.Write("Enter the name of the country:");
                         string nameChange = Helper.CheckString();
 
-                        Console.Clear();
+                        bool proveraNaziva = CheckCountry(nameChange);
 
-                        drzava = new Drzava { ID = idSelect, Naziv = nameChange };
+                        if (proveraNaziva)
+                        {
+                            Console.Clear();
 
-                        listaDrzava[idSelect] = drzava;
+                            drzava = new Drzava { ID = idSelect, Naziv = nameChange };
 
-                        SaveCountry();
+                            listaDrzava[idSelect] = drzava;
+
+                            SaveCountry();
+
+                            Console.Clear();
+                            Console.WriteLine("Drzava je uspesno izmenjena!");
+                        }else
+                        {
+                            Console.WriteLine("That country name already exits!");
+                        }
                     }
                     else
                     {
                         Console.WriteLine("That ID does not exits!");
                     }
-
-                    Console.Clear();
-
-                    Console.WriteLine("Drzava je uspesno izmenjena!");
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
@@ -470,6 +476,21 @@ namespace SvetskaPrvesntva
         }
 
         /// <summary>
+        /// Representing method which help software to don't crash when delete country
+        /// </summary>
+        /// <param name="countryID"></param>
+        public void DeletingWorldCupWhenDeleteCountry(int countryID)
+        {
+            foreach (KeyValuePair<int,SvetskoPrvenstvo> svetskoPrvenstvo in listaSvetskihPrvenstva)
+            {
+                if (svetskoPrvenstvo.Value.Domacin.ID == countryID)
+                {
+                    listaSvetskihPrvenstva.Remove(svetskoPrvenstvo.Key);
+                }
+            }
+        }
+
+        /// <summary>
         /// Representing method for deleting country
         /// </summary>
         public void DeleteCountry()
@@ -484,7 +505,10 @@ namespace SvetskaPrvesntva
             {
                 listaDrzava.Remove(ID);
 
+                DeletingWorldCupWhenDeleteCountry(ID);
+
                 SaveCountry();
+                SaveWorldCups();
 
                 Console.WriteLine("Country has successfully deleted!");
 
