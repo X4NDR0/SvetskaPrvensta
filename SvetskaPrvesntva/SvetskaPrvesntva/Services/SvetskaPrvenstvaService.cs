@@ -204,8 +204,6 @@ namespace SvetskaPrvesntva
 
                     if (listaDrzava.ContainsKey(idSelect))
                     {
-                        Drzava drzava = listaDrzava[idSelect];
-
                         Console.Write("Enter the name of the country:");
                         string nameChange = Helper.CheckString();
 
@@ -215,11 +213,14 @@ namespace SvetskaPrvesntva
                         {
                             Console.Clear();
 
-                            drzava = new Drzava { ID = idSelect, Naziv = nameChange };
+                            Drzava drzava = new Drzava { ID = idSelect, Naziv = nameChange };
+
+                            string oldCountryName = listaDrzava[idSelect].Naziv;
 
                             listaDrzava[idSelect] = drzava;
 
                             SaveCountry();
+                            UpdateWorldCupList(oldCountryName, nameChange);
 
                             Console.Clear();
                             Console.WriteLine("Drzava je uspesno izmenjena!");
@@ -245,7 +246,6 @@ namespace SvetskaPrvesntva
                     break;
             }
         }
-
 
         /// <summary>
         /// Representing method which allow user to add or change world cup
@@ -353,6 +353,17 @@ namespace SvetskaPrvesntva
                 default:
                     Console.WriteLine("That options does not exits!");
                     break;
+            }
+        }
+
+        private static void UpdateWorldCupList(string oldCountry, string newCountry)
+        {
+            foreach (var worldCup in listaSvetskihPrvenstva.ToDictionary(x => x.Key, x => x.Value))
+            {
+                if (worldCup.Value.Domacin.Naziv.Equals(oldCountry))
+                {
+                    worldCup.Value.Domacin.Naziv = newCountry;
+                }
             }
         }
 
